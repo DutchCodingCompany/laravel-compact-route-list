@@ -1,6 +1,6 @@
 <?php
 
-namespace DCC\CompactRouteList;
+namespace DutchCodingCompany\CompactRouteList;
 
 use Illuminate\Support\ServiceProvider;
 

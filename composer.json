@@ -1,7 +1,8 @@
 {
-    "name": "dcc/laravel-compact-route-list",
+    "name": "dutchcodingcompany/laravel-compact-route-list",
     "description": "Adds route:compact-list",
     "keywords": [
+        "dutchcodingcompany",
         "dcc",
         "laravel"
     ],
@@ -11,13 +12,13 @@
     },
     "autoload": {
         "psr-4": {
-            "DCC\\CompactRouteList\\": "src/"
+            "DutchCodingCompany\\CompactRouteList\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "DCC\\CompactRouteList\\CompactRouteListServiceProvider"
+                "DutchCodingCompany\\CompactRouteList\\CompactRouteListServiceProvider"
             ]
         }
     },
