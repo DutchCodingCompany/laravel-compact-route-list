@@ -1,6 +1,17 @@
 # Compact Route List
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/dutchcodingcompany/laravel-compact-route-list.svg?style=flat-square)](https://packagist.org/packages/dutchcodingcompany/laravel-compact-route-list)
+[![Total Downloads](https://img.shields.io/packagist/dt/dutchcodingcompany/laravel-compact-route-list.svg?style=flat-square)](https://packagist.org/packages/dutchcodingcompany/laravel-compact-route-list)
+
 This package extends the laravel provided route list command into `php artisan route:compact-list` and lists everything more compact and hides some first-party package url's.
+
+## Installation
+
+You can install the package via composer:
+
+```bash
+composer require dutchcodingcompany/laravel-compact-route-list
+```
 
 ## Options
 As the command extends the default route list command, all those options are available. It is intentional the older short middleware style is used.
