@@ -12,6 +12,33 @@ By default the compact-list command filters all `nova`, `horizon` and `debugbar`
 - `php artisan route:compact-list --debugbar` includes debugbar routes
 - `php artisan route:compact-list --without-filter` does not filter any routes
 
+## Configure filters
+One can add extra filters:
+```php
+// adds php artisan route:compact-list --api
+CompactRouteList::addFilter('api'); // adds ['api' => 'api] to filters
+
+// adds php artisan route:compact-list --api
+// adds php artisan route:compact-list --api-v2
+CompactRouteList::addFilters([
+    'api',
+    'old-api' => ['api/v1', 'api/v2'],
+]);
+
+// adds php artisan route:compact-list --api-v1
+CompactRouteList::setFilters([
+    'api-v1' => 'api/v1',
+]); // removes all existing filters and only uses new filters
+```
+
+Also, one can change how the filter is applied by setting a callback
+```php
+// this is the default callback
+CompactRouteList::setFilterCallback(static function (array $route, $filter): bool {
+    return \Illuminate\Support\Str::contains($route['uri'], $filter);
+});
+```
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

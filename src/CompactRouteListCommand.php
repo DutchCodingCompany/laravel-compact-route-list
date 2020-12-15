@@ -4,7 +4,6 @@ namespace DutchCodingCompany\CompactRouteList;
 
 use Closure;
 use Illuminate\Foundation\Console\RouteListCommand;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
 class CompactRouteListCommand extends RouteListCommand
@@ -67,8 +66,8 @@ class CompactRouteListCommand extends RouteListCommand
         $filteredRoute = parent::filterRoute($route);
 
         if ($filteredRoute) {
-            foreach ($this->filterOptions() as $option => $uriSegment) {
-                if (! $this->option($option) && ! $this->option('without-filter') && Str::contains($filteredRoute['uri'], $uriSegment)) {
+            foreach ($this->filterOptions() as $option => $filter) {
+                if ($this->shouldFilterOption($option, $filteredRoute, $filter)) {
                     return;
                 }
             }
@@ -77,13 +76,18 @@ class CompactRouteListCommand extends RouteListCommand
         return $filteredRoute;
     }
 
+    protected function shouldFilterOption(string $option, array $route, $filter): bool
+    {
+        return (
+            ! $this->option($option)
+         && ! $this->option('without-filter')
+         && call_user_func(CompactRouteList::filterCallback(), $route, $filter)
+        );
+    }
+
     protected function filterOptions(): array
     {
-        return [
-            'nova'     => 'nova',
-            'horizon'  => 'horizon',
-            'debugbar' => '_debugbar',
-        ];
+        return CompactRouteList::getFilters();
     }
 
     /**
