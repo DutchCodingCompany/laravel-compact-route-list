@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.0 - 2021-09-04
+- Allow php 8 in composer.json
+
 ## 0.3.0 - 2020-12-15
 
 ### Added
