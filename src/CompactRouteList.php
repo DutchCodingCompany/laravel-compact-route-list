@@ -15,6 +15,7 @@ class CompactRouteList
         'nova'     => 'nova',
         'horizon'  => 'horizon',
         'debugbar' => '_debugbar',
+        'ignition' => '_ignition',
     ];
 
     protected static ?Closure $filterCallback = null;

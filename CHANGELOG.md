@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.0 - 2022-02-10
+- Added ignition filter by default
+
 ## 0.4.0 - 2021-09-04
 - Allow php 8 in composer.json
 
