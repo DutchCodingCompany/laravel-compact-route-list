@@ -3,8 +3,8 @@
 namespace DutchCodingCompany\CompactRouteList;
 
 use Closure;
-use Illuminate\Foundation\Console\RouteListCommand;
 use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Foundation\Console\RouteListCommand;
 
 class CompactRouteListCommand extends RouteListCommand
 {
@@ -32,6 +32,27 @@ class CompactRouteListCommand extends RouteListCommand
     protected $headers = ['Method', 'URI', 'Name', 'Action', 'Middleware'];
 
     /**
+     * Display the route information on the console.
+     *
+     * @param  array  $routes
+     * @return void
+     */
+    protected function displayRoutes(array $routes)
+    {
+        if ($this->option('json')) {
+            if (method_exists($this, $method = 'asJson')) {
+                $this->output->writeln($this->{$method}(collect($routes)));
+            } else {
+                $this->line(json_encode(array_values($routes)));
+            }
+
+            return;
+        }
+
+        $this->table($this->getHeaders(), $routes);
+    }
+
+    /**
      * Get before filters.
      *
      * Use old way of presenting middleware (shorthand instead of FQDN) by default
@@ -42,8 +63,9 @@ class CompactRouteListCommand extends RouteListCommand
      */
     protected function getMiddleware($route)
     {
-        // Only use new way of presenting middleware when requested
-        if ($this->option('middleware')) {
+        if (version_compare(\Illuminate\Foundation\Application::VERSION, '9.0.0', '>=')) {
+            return collect(explode("\n", parent::getMiddleware($route)))->implode(',');
+        } elseif ($this->option('middleware')) {
             return parent::getMiddleware($route);
         }
 
@@ -78,11 +100,10 @@ class CompactRouteListCommand extends RouteListCommand
 
     protected function shouldFilterOption(string $option, array $route, $filter): bool
     {
-        return (
+        return
             ! $this->option($option)
          && ! $this->option('without-filter')
-         && call_user_func(CompactRouteList::filterCallback(), $route, $filter)
-        );
+         && call_user_func(CompactRouteList::filterCallback(), $route, $filter);
     }
 
     protected function filterOptions(): array
@@ -98,7 +119,7 @@ class CompactRouteListCommand extends RouteListCommand
     protected function getOptions()
     {
         $options = [
-            ['middleware', 'm', InputOption::VALUE_NONE, 'Use FQDN for middleware column'],
+            ['middleware', 'm', InputOption::VALUE_NONE, 'Use FQDN for middleware column (6.x - 8.x only)'],
         ];
 
         foreach ($this->filterOptions() as $option => $uriSegment) {
