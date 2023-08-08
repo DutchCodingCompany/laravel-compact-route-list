@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.0 - 2023-08-08
+- Add laravel 10 support
+
 ## 0.5.0 - 2022-02-10
 - Preliminary laravel 9 support
 - Added ignition filter by default
